@@ -59,6 +59,17 @@ export interface EvaluationContext {
   appliedMigrations?: readonly string[];
 }
 
+export const RULE_CHECK_TYPES = [
+  "forbidden_read_columns",
+  "forbidden_write_columns",
+  "forbidden_git_refs",
+  "allowed_migration_targets",
+  "applied_migrations_immutable",
+  "migration_separate_grants",
+  "forbidden_claim",
+  "guidance",
+] as const satisfies readonly RuleCheck["type"][];
+
 /** The checks a workspace rule can configure. Rules are data; these are the only code. */
 export type RuleCheck =
   | {
