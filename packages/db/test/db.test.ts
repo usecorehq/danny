@@ -23,10 +23,11 @@ function pgliteDb(pg: PGlite): Db {
   };
 }
 
-let db: Db;
+// Booting PGlite takes seconds, so boot once and reset the schema between tests.
+const db: Db = pgliteDb(new PGlite());
 beforeEach(async () => {
-  db = pgliteDb(new PGlite());
-});
+  await db.exec("drop schema public cascade; create schema public;");
+}, 30_000);
 
 describe("migrate", () => {
   it("applies all migrations once", async () => {
