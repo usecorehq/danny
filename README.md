@@ -15,6 +15,8 @@ pnpm install
 pnpm test
 pnpm typecheck
 
+# Supabase: use the Session pooler connection string (port 5432), not the
+# Transaction pooler (6543); the migrator needs a session for its transactions.
 DATABASE_URL=postgres://... pnpm db:migrate   # apply pending migrations
 DATABASE_URL=postgres://... pnpm db:seed      # create Core Technologies workspace + seed rules
 ```

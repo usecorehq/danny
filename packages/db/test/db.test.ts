@@ -31,8 +31,23 @@ beforeEach(async () => {
 
 describe("migrate", () => {
   it("applies all migrations once", async () => {
-    expect(await migrate(db)).toEqual(["0001_init.sql"]);
+    expect(await migrate(db)).toEqual(["0001_init.sql", "0002_lock_down_api_access.sql"]);
     expect(await migrate(db)).toEqual([]);
+  });
+
+  it("enables row level security on every table and makes views respect it", async () => {
+    await migrate(db);
+    const open = await db.query<{ relname: string }>(
+      `select relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
+       where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity`,
+    );
+    expect(open).toEqual([]);
+    const views = await db.query<{ relname: string }>(
+      `select relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
+       where n.nspname = 'public' and c.relkind = 'v'
+         and not coalesce('security_invoker=true' = any(c.reloptions), false)`,
+    );
+    expect(views).toEqual([]);
   });
 
   it("refuses to run when an applied migration was edited", async () => {
