@@ -1,4 +1,4 @@
-import { coreTechnologiesRules } from "@danny/policy";
+import { coreTechnologiesRules } from "@fola/policy";
 import { transaction, type Db } from "./client.js";
 
 export const CORE_TECHNOLOGIES_SLUG = "core-technologies";

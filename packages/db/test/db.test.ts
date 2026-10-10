@@ -2,7 +2,7 @@ import { PGlite } from "@electric-sql/pglite";
 import { cp, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { coreTechnologiesRules, evaluate } from "@danny/policy";
+import { coreTechnologiesRules, evaluate } from "@fola/policy";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   approveRule,
@@ -36,7 +36,7 @@ describe("migrate", () => {
   });
 
   it("refuses to run when an applied migration was edited", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "danny-migrations-"));
+    const dir = await mkdtemp(join(tmpdir(), "fola-migrations-"));
     await cp(MIGRATIONS_DIR, dir, { recursive: true });
     await migrate(db, dir);
 
@@ -48,7 +48,7 @@ describe("migrate", () => {
   });
 
   it("rolls back a failing migration", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "danny-migrations-"));
+    const dir = await mkdtemp(join(tmpdir(), "fola-migrations-"));
     await writeFile(join(dir, "0001_bad.sql"), "create table a (id int); select * from does_not_exist;");
     await expect(migrate(db, dir)).rejects.toThrow();
     await expect(db.query("select * from a")).rejects.toThrow();
@@ -106,7 +106,7 @@ describe("seed and rules", () => {
   });
 
   it("keeps the audit log append-only", async () => {
-    await db.query(`insert into audit_log (workspace_id, actor, event) values ($1, 'danny', 'test')`, [workspaceId]);
+    await db.query(`insert into audit_log (workspace_id, actor, event) values ($1, 'fola', 'test')`, [workspaceId]);
     await expect(db.query("update audit_log set event = 'changed'")).rejects.toThrow(/append-only/);
     await expect(db.query("delete from audit_log")).rejects.toThrow(/append-only/);
   });

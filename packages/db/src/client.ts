@@ -1,4 +1,4 @@
-/** The minimal database surface Danny needs, so tests can run on PGlite and prod on postgres.js. */
+/** The minimal database surface Fola needs, so tests can run on PGlite and prod on postgres.js. */
 export interface Db {
   query<T = Record<string, unknown>>(sql: string, params?: unknown[]): Promise<T[]>;
   /** Runs one or more statements without parameters. */

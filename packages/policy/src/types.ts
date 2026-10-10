@@ -1,5 +1,5 @@
 /**
- * An action Danny plans to take. The tool gateway builds one of these for every
+ * An action Fola plans to take. The tool gateway builds one of these for every
  * tool call and asks the policy engine for a decision before executing it.
  */
 export type Action =
@@ -109,7 +109,7 @@ export type Severity = "block" | "warn";
 export interface Rule {
   id: string;
   title: string;
-  /** Plain-language rule as the admin wrote it. Also rendered into Danny's instructions. */
+  /** Plain-language rule as the admin wrote it. Also rendered into Fola's instructions. */
   description: string;
   severity: Severity;
   check: RuleCheck;

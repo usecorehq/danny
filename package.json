@@ -1,5 +1,5 @@
 {
-  "name": "danny",
+  "name": "fola",
   "private": true,
   "packageManager": "pnpm@10.28.0",
   "engines": {
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
-    "db:migrate": "pnpm --filter @danny/db migrate",
-    "db:seed": "pnpm --filter @danny/db seed"
+    "db:migrate": "pnpm --filter @fola/db migrate",
+    "db:seed": "pnpm --filter @fola/db seed"
   }
 }

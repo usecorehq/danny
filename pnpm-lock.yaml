@@ -10,7 +10,7 @@ importers:
 
   packages/db:
     dependencies:
-      '@danny/policy':
+      '@fola/policy':
         specifier: workspace:*
         version: link:../policy
       postgres:

@@ -1,29 +1,29 @@
-# PRD: Danny, the AI Employee
+# PRD: Fola, the AI Employee
 
 Oct 9, 2026 · Core Technologies LTD · Draft v0.2
 
-Reference: Viktor PRD (Oct 9, 2026). Danny follows Viktor's model of one shared AI employee per company. We build it for Core Technologies first, then sell it to other businesses.
+Reference: Viktor PRD (Oct 9, 2026). Fola follows Viktor's model of one shared AI employee per company. We build it for Core Technologies first, then sell it to other businesses.
 
 ---
 
 ## 1. Overview
 
-**What Danny is.** Danny is one shared AI employee per company. Teammates @mention Danny in Slack. Danny works in its own sandbox, uses the team's tools, and posts finished work back in the thread. One shared memory means a correction from one person applies to everyone.
+**What Fola is.** Fola is one shared AI employee per company. Teammates @mention Fola in Slack. Fola works in its own sandbox, uses the team's tools, and posts finished work back in the thread. One shared memory means a correction from one person applies to everyone.
 
 **Problem.** Small teams lose hours every week to repeated work: reports, reviews, triage, chasing people, answering the same questions. Personal AI chats help one person at a time. What they learn, including the team's rules, stays in private chats and has to be re-explained each time.
 
-**Bet.** Danny is a hire, not a tool. Danny learns how *this* company works and follows its rules on every task, not just its preferences.
+**Bet.** Fola is a hire, not a tool. Fola learns how *this* company works and follows its rules on every task, not just its preferences.
 
 **Two stages:**
 
-1. **Danny Internal.** Core Technologies' own AI employee. We use it every day on our own work (Qorelly, Qore Catalog, Qore Maps) until it is clearly worth paying for.
-2. **Danny as a product (North Star).** Sold to other businesses as an extra AI employee: one per workspace, in their Slack (later Teams), connected to their tools.
+1. **Fola Internal.** Core Technologies' own AI employee. We use it every day on our own work (Qorelly, Qore Catalog, Qore Maps) until it is clearly worth paying for.
+2. **Fola as a product (North Star).** Sold to other businesses as an extra AI employee: one per workspace, in their Slack (later Teams), connected to their tools.
 
-### How Danny differs from Viktor
+### How Fola differs from Viktor
 
-Viktor already does this at scale (claims 7,000 paying teams). Copying it feature for feature won't win. Danny's edge has to come from what we learn by being our own first customer:
+Viktor already does this at scale (claims 7,000 paying teams). Copying it feature for feature won't win. Fola's edge has to come from what we learn by being our own first customer:
 
-| Viktor | Danny |
+| Viktor | Fola |
 | --- | --- |
 | Memory holds preferences and corrections | **Rules layer:** company rules are enforced by a policy engine before any action runs, not just remembered |
 | Any teammate's correction spreads to everyone | Rule changes are admin-approved, versioned and can be reverted |
@@ -47,7 +47,7 @@ Viktor already does this at scale (claims 7,000 paying teams). Copying it featur
 
 ### Stage 2: External customers
 
-Same buyer as Viktor: a founder or ops lead at a 5–50 person startup or SMB that runs on Slack. Our first segment is **small software teams that use AI coding agents**, because that's the work Danny will be best at by then. We widen to ops, finance and support teams after that.
+Same buyer as Viktor: a founder or ops lead at a 5–50 person startup or SMB that runs on Slack. Our first segment is **small software teams that use AI coding agents**, because that's the work Fola will be best at by then. We widen to ops, finance and support teams after that.
 
 ---
 
@@ -57,7 +57,7 @@ Same buyer as Viktor: a founder or ops lead at a 5–50 person startup or SMB th
 
 | Team | Example job | Output |
 | --- | --- | --- |
-| Engineering | "Danny, draft the audit prompt for the invoices refactor" | Paste-ready agent prompt that follows our PROMPT RULES (audit first, show DDL, stop on contradictions) |
+| Engineering | "Fola, draft the audit prompt for the invoices refactor" | Paste-ready agent prompt that follows our PROMPT RULES (audit first, show DDL, stop on contradictions) |
 | Engineering | Review a coding agent's pasted report against the prompt it was given | In-thread verdict: done, skipped, rule violations, missing screenshots |
 | Engineering | Check a PR for hard-rule violations (reads `orders.total_amount` for revenue, client writes `paid_amount`, edits an applied migration, branches from `origin/main`) | PR review comment |
 | Founders / finance | "Last month's revenue by product, in ₦" | One-pager that reads only from `paid_amount` / `order_payments` / `invoices.amount_paid` / `folio_charges` |
@@ -89,7 +89,7 @@ Slack (later Teams)
    └────────┬─────────┘
             ▼
    ┌──────────────────┐     ┌───────────────────────┐
-   │   Danny agent    │◄───►│ Shared memory         │  rules, preferences, facts,
+   │   Fola agent    │◄───►│ Shared memory         │  rules, preferences, facts,
    │  (Claude, agent  │     │ (Postgres + pgvector) │  past tasks; per workspace
    │   loop)          │     └───────────────────────┘
    └────────┬─────────┘
@@ -126,7 +126,7 @@ Slack (later Teams)
 
 **FR1. Chat-native interface**
 - Slack app: responds to @mentions in channels and to DMs. Microsoft Teams in Stage 2.
-- Danny posts progress and results in the same thread, with reactions (👀 working, ✅ done, ⏸ waiting for approval) and file attachments.
+- Fola posts progress and results in the same thread, with reactions (👀 working, ✅ done, ⏸ waiting for approval) and file attachments.
 
 **FR2. Shared workspace memory**
 - One memory per workspace, shared by all teammates.
@@ -135,19 +135,19 @@ Slack (later Teams)
 - Admins can view, edit, export and wipe memory.
 
 **FR3. Rules layer (the differentiator)**
-- Admins write rules in plain language. Danny compiles each rule into a check the policy engine runs where it can (e.g. SQL column checks, git branch checks, banned phrases), and into prompt guidance where it can't.
+- Admins write rules in plain language. Fola compiles each rule into a check the policy engine runs where it can (e.g. SQL column checks, git branch checks, banned phrases), and into prompt guidance where it can't.
 - Every planned action is checked before execution. A violation blocks the action and explains which rule it broke.
 - Rules are versioned, and a change needs admin approval.
 - **Our workspace's seed rules** (they also serve as the test suite for this feature):
   - Money rule: revenue, reporting and analytics read only from `paid_amount`, `order_payments`, `invoices.amount_paid` or `folio_charges`, never from `orders.total_amount` or `orders.subtotal`.
-  - Danny never writes `orders.paid_amount`.
+  - Fola never writes `orders.paid_amount`.
   - Never branch from or merge `origin/main`.
   - Migrations: file-first, staging only. Never apply to production; never edit an applied migration. Grants and tightenings never share a migration.
   - Grants, credits and prize money are never "funding raised".
   - Currency defaults to ₦.
 
 **FR4. Integrations (Stage 1 set, in priority order)**
-1. Slack (read the channels Danny is in, post, upload files).
+1. Slack (read the channels Fola is in, post, upload files).
 2. GitHub (read code and PRs, comment; open PRs only on non-default branches).
 3. Postgres, **read-only role** (staging first).
 4. Jira / Confluence.
@@ -156,7 +156,7 @@ Slack (later Teams)
 Stage 2 adds Stripe, Linear, HubSpot, Notion, Zendesk, guided by what customers ask for. No "No API" browser automation until there is clear demand.
 
 **FR5. Execution sandbox**
-- Per-workspace container where Danny writes and runs code (SQL, Python, Node) and generates files.
+- Per-workspace container where Fola writes and runs code (SQL, Python, Node) and generates files.
 - No production write credentials ever reach the sandbox.
 
 **FR6. Outputs**
@@ -166,8 +166,8 @@ Stage 2 adds Stripe, Linear, HubSpot, Notion, Zendesk, guided by what customers 
 - Phase 3+: hosted internal pages and dashboards (the equivalent of Viktor Spaces).
 
 **FR7. Routines**
-- Approve a result once ("make this weekly"), and Danny reruns it on a schedule in the workspace's time zone.
-- Danny can propose routines; proposals stay paused until approved.
+- Approve a result once ("make this weekly"), and Fola reruns it on a schedule in the workspace's time zone.
+- Fola can propose routines; proposals stay paused until approved.
 - Proactive checks come later (Phase 3): anomalies nobody asked about.
 
 **FR8. Approvals**
@@ -178,7 +178,7 @@ Stage 2 adds Stripe, Linear, HubSpot, Notion, Zendesk, guided by what customers 
 **FR9. Skills**
 - Written, versioned playbooks (e.g. "write an audit prompt", "monthly investor update", "review agent report").
 - Stage 2: skills we write for ourselves become templates customers can install.
-- Phase 3: record a screen session and Danny drafts a skill from it.
+- Phase 3: record a screen session and Fola drafts a skill from it.
 
 **FR10. Model choice**
 - Two tiers: **Standard** (fast, cheaper; default for chat and routines) and **Deep** (top model; prompts, reviews, multi-step work). Set per workspace and per routine.
@@ -220,9 +220,9 @@ Goal: a multi-tenant skeleton that can't do damage.
 - Tool gateway with **two read-only connectors**: GitHub (read) and Slack.
 - Core Technologies created as workspace #1 with our seed rules loaded as data.
 
-**Exit:** Danny answers "where is X in the code?" in Slack with correct file links, and every call shows in the audit log.
+**Exit:** Fola answers "where is X in the code?" in Slack with correct file links, and every call shows in the audit log.
 
-### Phase 1: MVP, "Danny the engineering teammate" (3–4 weeks)
+### Phase 1: MVP, "Fola the engineering teammate" (3–4 weeks)
 
 Goal: save us real hours on our current loop (discuss → prompt → agent → report → review).
 
@@ -230,15 +230,15 @@ Goal: save us real hours on our current loop (discuss → prompt → agent → r
 - **Report reviewer:** pasted agent report plus the original prompt → verdict on scope, skipped steps, rule violations and missing screenshots.
 - **PR rule checker:** comments on PRs that break workspace rules.
 - Rules layer v1: plain-language rules, admin-gated, with SQL and git checks.
-- Read-only staging DB connector, so Danny shows real DDL instead of guessing column names.
+- Read-only staging DB connector, so Fola shows real DDL instead of guessing column names.
 
 **Exit criteria:**
 
 - Used in ≥ 10 real tasks/week by ≥ 3 teammates.
 - ≥ 70% of drafted prompts used with only small edits.
-- Zero rule violations in Danny's own output.
+- Zero rule violations in Fola's own output.
 
-### Phase 2: "Danny the ops teammate" (4–6 weeks)
+### Phase 2: "Fola the ops teammate" (4–6 weeks)
 
 - Reporting skill (revenue and usage summaries that follow the money rule) as XLSX/PDF.
 - Routines: approve once, then it runs on a schedule.
@@ -258,14 +258,14 @@ Goal: save us real hours on our current loop (discuss → prompt → agent → r
 
 **Exit:** ≥ 5 design-partner workspaces active weekly for 4 weeks; at least 3 say they would pay.
 
-### Phase 4: North Star, Danny as a product
+### Phase 4: North Star, Fola as a product
 
 - Public launch for small software teams; then widen to ops, finance and support use cases.
 - Microsoft Teams; more connectors based on customer demand.
 - Pricing per workspace, not per seat, with usage credits like Viktor. Proposed starting point: free trial with credits, then a Team plan priced **below Viktor's entry price**. Validate with design partners; don't set it now.
 - Enterprise later: SSO, data residency, per-user spend caps.
 
-**North Star metric:** weekly active paying workspaces where ≥ 3 teammates use Danny.
+**North Star metric:** weekly active paying workspaces where ≥ 3 teammates use Fola.
 
 ---
 
@@ -275,7 +275,7 @@ Goal: save us real hours on our current loop (discuss → prompt → agent → r
 | --- | --- | --- |
 | Weekly active teammates per workspace | 1–2 | Proves the "shared employee" bet |
 | Tasks accepted without correction (%) | 1–2 | Quality |
-| Rule violations in Danny output | 1–2 | Must stay at **0** |
+| Rule violations in Fola output | 1–2 | Must stay at **0** |
 | Approved routines and their rerun rate | 1–2 | Recurring value |
 | Hours saved per week | 1 | Build-vs-buy decision |
 | Model cost per task | 1–2 | Unit economics before pricing |
@@ -295,20 +295,20 @@ Goal: save us real hours on our current loop (discuss → prompt → agent → r
 | One wrong correction spreads to the whole team | Admin-gated, versioned rules; reversible corrections |
 | Prompt injection via tickets, emails or PRs | Untrusted content treated as data; outward tools behind approval |
 | Model cost in USD vs. our ₦ costs base | Per-task cost tracking from Phase 0; cheaper tier by default; caps |
-| Danny distracts from Qorelly / Catalog / Maps | Fixed phase exit criteria; Phase 2 go/no-go is a real kill switch |
+| Fola distracts from Qorelly / Catalog / Maps | Fixed phase exit criteria; Phase 2 go/no-go is a real kill switch |
 | Data security for external customers' data | Strict tenancy, vault, audit log, DPA and SOC 2 before broad launch |
 
 ---
 
 ## 10. Open questions
 
-1. Who owns Danny day to day (product owner, on-call)?
+1. Who owns Fola day to day (product owner, on-call)?
 2. Hosting: our current cloud, or a separate project for isolation (better for Stage 2)?
 3. Model budget for Stages 1–3 (monthly cap)?
-4. Does Danny ever get a production read replica internally, or stay staging-only?
-5. Is Danny a product under Core Technologies, or its own brand?
+4. Does Fola ever get a production read replica internally, or stay staging-only?
+5. Is Fola a product under Core Technologies, or its own brand?
 6. First external segment: small software teams (recommended) or broader SMB ops teams?
-7. How does Danny settle conflicting instructions from two teammates? Proposed: rules win, then the admin's role, then ask in thread.
+7. How does Fola settle conflicting instructions from two teammates? Proposed: rules win, then the admin's role, then ask in thread.
 8. Pricing currency for external customers: USD only, or USD + ₦?
 
 ---
@@ -319,6 +319,6 @@ Goal: save us real hours on our current loop (discuss → prompt → agent → r
 
 - the DB stack and migration tooling (`pnpm db:migrate` layout);
 - any existing Slack/GitHub integrations;
-- where Danny's service should live (this repo, as a standalone service).
+- where Fola's service should live (this repo, as a standalone service).
 
-It reports back with the DDL for the tables Danny will read internally (`orders`, `order_payments`, `invoices`, `folio_charges`). Then we write the Phase 0 implementation prompt.
+It reports back with the DDL for the tables Fola will read internally (`orders`, `order_payments`, `invoices`, `folio_charges`). Then we write the Phase 0 implementation prompt.

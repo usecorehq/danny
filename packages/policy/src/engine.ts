@@ -16,7 +16,7 @@ export function evaluate(action: Action, rules: readonly Rule[], ctx: Evaluation
   return { allowed: !violations.some((v) => v.severity === "block"), violations };
 }
 
-/** Renders the rules as instructions for Danny's system prompt, so it plans within them. */
+/** Renders the rules as instructions for Fola's system prompt, so it plans within them. */
 export function renderRulesForPrompt(rules: readonly Rule[]): string {
   return rules.map((r) => `- ${r.title}: ${r.description}`).join("\n");
 }

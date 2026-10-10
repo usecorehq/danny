@@ -1,4 +1,4 @@
-import { RULE_CHECK_TYPES, type Rule, type RuleCheck, type Severity } from "@danny/policy";
+import { RULE_CHECK_TYPES, type Rule, type RuleCheck, type Severity } from "@fola/policy";
 import type { Db } from "./client.js";
 
 interface RuleRow {
